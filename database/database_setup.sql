@@ -43,7 +43,7 @@ CREATE TABLE Merchants (
     INDEX idx_phone (phone_number)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Transactions (
+CREATE TABLE Transaction (
     transaction_id VARCHAR(50) PRIMARY KEY,
     sender_id INT NOT NULL,
     receiver_id INT,

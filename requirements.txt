@@ -1,0 +1,4 @@
+Download these extensions
+- MySQL Management tool: https://example.com/mysql-management-tool
+- PostgreSQL Admin interface: https://example.com/postgresql-admin
+- SQLite Browser: https://example.com/sqlite-browser
