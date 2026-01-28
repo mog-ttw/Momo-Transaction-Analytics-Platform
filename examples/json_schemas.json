@@ -1,0 +1,401 @@
+{
+  "description": "JSON Schema Examples for MoMo SMS Database",
+  "database": "momo_sms_db",
+  "schemas": {
+    "User": {
+      "description": "User account entity",
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "description": "Unique user identifier"
+        },
+        "phone_number": {
+          "type": "string",
+          "pattern": "^\\+[0-9]{12,15}$",
+          "description": "User phone number in international format"
+        },
+        "full_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "User's full name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User's email address (optional)"
+        },
+        "registration_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account registration timestamp"
+        },
+        "account_status": {
+          "type": "string",
+          "enum": ["active", "suspended", "closed"],
+          "description": "Current account status"
+        }
+      },
+      "required": ["user_id", "phone_number", "full_name", "account_status"],
+      "example": {
+        "user_id": 1,
+        "phone_number": "+250788123456",
+        "full_name": "Dianah Gasasira",
+        "email": "d.shimwa@email.com",
+        "registration_date": "2025-01-24T10:30:00Z",
+        "account_status": "active"
+      }
+    },
+    "TransactionCategory": {
+      "description": "Transaction category classification",
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "type": "integer",
+          "description": "Unique category identifier"
+        },
+        "category_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Category name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Category description and purpose"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When category was created"
+        }
+      },
+      "required": ["category_id", "category_name"],
+      "example": {
+        "category_id": 1,
+        "category_name": "Money Transfer",
+        "description": "Person-to-person money transfers",
+        "created_at": "2025-01-24T10:00:00Z"
+      }
+    },
+    "Merchant": {
+      "description": "Merchant business entity",
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "integer",
+          "description": "Unique merchant identifier"
+        },
+        "merchant_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Merchant business name"
+        },
+        "merchant_code": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 20,
+          "description": "Unique merchant code identifier"
+        },
+        "phone_number": {
+          "type": "string",
+          "pattern": "^\\+[0-9]{12,15}$",
+          "description": "Merchant contact phone number"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Merchant registration timestamp"
+        }
+      },
+      "required": ["merchant_id", "merchant_name", "merchant_code", "phone_number"],
+      "example": {
+        "merchant_id": 1,
+        "merchant_name": "Simba Supermarket",
+        "merchant_code": "SIMBA001",
+        "phone_number": "+250788111222",
+        "created_at": "2025-01-24T10:00:00Z"
+      }
+    },
+    "Transaction": {
+      "description": "Financial transaction record",
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "type": "string",
+          "description": "Unique transaction identifier"
+        },
+        "sender_id": {
+          "type": "integer",
+          "description": "Sender user ID"
+        },
+        "receiver_id": {
+          "type": ["integer", "null"],
+          "description": "Receiver user ID (null for merchant transactions)"
+        },
+        "category_id": {
+          "type": "integer",
+          "description": "Transaction category ID"
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Transaction amount in RWF"
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["RWF"],
+          "default": "RWF",
+          "description": "Currency code"
+        },
+        "transaction_fee": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Transaction fee charged"
+        },
+        "transaction_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Transaction timestamp"
+        },
+        "description": {
+          "type": ["string", "null"],
+          "description": "Transaction notes or details"
+        }
+      },
+      "required": ["transaction_id", "sender_id", "category_id", "amount", "transaction_date"],
+      "example": {
+        "transaction_id": "TXN001",
+        "sender_id": 1,
+        "receiver_id": 2,
+        "category_id": 1,
+        "amount": 50000.00,
+        "currency": "RWF",
+        "transaction_fee": 500.00,
+        "transaction_date": "2025-01-24T10:30:00Z",
+        "description": "Payment for services"
+      }
+    },
+    "TransactionMerchant": {
+      "description": "Transaction-Merchant relationship (many-to-many)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Relationship identifier"
+        },
+        "transaction_id": {
+          "type": "string",
+          "description": "Related transaction ID"
+        },
+        "merchant_id": {
+          "type": "integer",
+          "description": "Related merchant ID"
+        },
+        "merchant_fee": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Fee paid to merchant"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Relationship creation timestamp"
+        }
+      },
+      "required": ["id", "transaction_id", "merchant_id"],
+      "example": {
+        "id": 1,
+        "transaction_id": "TXN007",
+        "merchant_id": 1,
+        "merchant_fee": 300.00,
+        "created_at": "2025-01-24T16:00:00Z"
+      }
+    },
+    "SystemLog": {
+      "description": "System operation log entry",
+      "type": "object",
+      "properties": {
+        "log_id": {
+          "type": "integer",
+          "description": "Unique log entry identifier"
+        },
+        "log_type": {
+          "type": "string",
+          "enum": ["info", "warning", "error", "debug"],
+          "description": "Log severity level"
+        },
+        "message": {
+          "type": "string",
+          "description": "Log message content"
+        },
+        "transaction_id": {
+          "type": ["string", "null"],
+          "description": "Related transaction ID (if applicable)"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When log entry was created"
+        },
+        "additional_data": {
+          "type": ["object", "null"],
+          "description": "Extra context data in JSON format"
+        }
+      },
+      "required": ["log_id", "log_type", "message"],
+      "example": {
+        "log_id": 1,
+        "log_type": "info",
+        "message": "Successfully parsed XML transaction data",
+        "transaction_id": "TXN001",
+        "timestamp": "2025-01-24T10:30:00Z",
+        "additional_data": {
+          "records_processed": 1,
+          "duration_ms": 45
+        }
+      }
+    },
+    "TransactionWithDetails": {
+      "description": "Complete transaction with related entity details",
+      "type": "object",
+      "properties": {
+        "transaction_id": {
+          "type": "string"
+        },
+        "transaction_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sender_name": {
+          "type": "string"
+        },
+        "receiver_name": {
+          "type": ["string", "null"]
+        },
+        "category_name": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "transaction_fee": {
+          "type": "number"
+        },
+        "merchants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "merchant_id": {"type": "integer"},
+              "merchant_name": {"type": "string"},
+              "merchant_code": {"type": "string"},
+              "merchant_fee": {"type": "number"}
+            }
+          },
+          "description": "Associated merchants (if any)"
+        }
+      },
+      "example": {
+        "transaction_id": "TXN010",
+        "transaction_date": "2025-01-24T19:00:00Z",
+        "sender_name": "Ayobamidele",
+        "receiver_name": null,
+        "category_name": "Merchant Payment",
+        "amount": 80000.00,
+        "transaction_fee": 800.00,
+        "merchants": [
+          {
+            "merchant_id": 1,
+            "merchant_name": "Simba Supermarket",
+            "merchant_code": "SIMBA001",
+            "merchant_fee": 400.00
+          },
+          {
+            "merchant_id": 3,
+            "merchant_name": "Tech Zone Electronics",
+            "merchant_code": "TECH001",
+            "merchant_fee": 200.00
+          },
+          {
+            "merchant_id": 5,
+            "merchant_name": "City Pharmacy",
+            "merchant_code": "PHARM001",
+            "merchant_fee": 200.00
+          }
+        ]
+      }
+    },
+    "CategorySummary": {
+      "description": "Transaction summary by category",
+      "type": "object",
+      "properties": {
+        "category_name": {
+          "type": "string"
+        },
+        "transaction_count": {
+          "type": "integer"
+        },
+        "total_amount": {
+          "type": "number"
+        }
+      },
+      "example": {
+        "category_name": "Money Transfer",
+        "transaction_count": 125,
+        "total_amount": 2500000.00
+      }
+    },
+    "MerchantPerformance": {
+      "description": "Merchant performance metrics",
+      "type": "object",
+      "properties": {
+        "merchant_id": {
+          "type": "integer"
+        },
+        "merchant_name": {
+          "type": "string"
+        },
+        "merchant_code": {
+          "type": "string"
+        },
+        "total_transactions": {
+          "type": "integer"
+        },
+        "total_sales": {
+          "type": "number"
+        }
+      },
+      "example": {
+        "merchant_id": 1,
+        "merchant_name": "Simba Supermarket",
+        "merchant_code": "SIMBA001",
+        "total_transactions": 45,
+        "total_sales": 1250000.00
+      }
+    },
+    "DailyTransactionSummary": {
+      "description": "Daily transaction aggregate",
+      "type": "object",
+      "properties": {
+        "transaction_day": {
+          "type": "string",
+          "format": "date"
+        },
+        "total_transactions": {
+          "type": "integer"
+        },
+        "daily_total": {
+          "type": "number"
+        }
+      },
+      "example": {
+        "transaction_day": "2025-01-24",
+        "total_transactions": 10,
+        "daily_total": 360000.00
+      }
+    }
+  }
+}
