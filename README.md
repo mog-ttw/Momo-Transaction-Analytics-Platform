@@ -14,6 +14,11 @@ An enterprise-level fullstack application designed to process, analyze, and visu
 
 ![System Architecture Diagram](docs/erd_diagram2.png)
 
+## Tasksheet
+
+https://docs.google.com/spreadsheets/d/1-EVhOLkhM0fRCO_-AmSgR-yeLo4y5GtYwQm2yJ5hgWw/edit?gid=0#gid=0
+
+
 ## Scrum Board
 
 Project management board:
@@ -54,6 +59,3 @@ https://trello.com/invite/b/6974c6a491ac69b3a7ae1e9d/ATTI0519622accf2cd969e01069
 │   ├── db.py                         # SQLite connection helpers and database utilities
 │   └── schemas.py                    # Pydanti
 
-## Tasksheet
-
-https://docs.google.com/spreadsheets/d/1-EVhOLkhM0fRCO_-AmSgR-yeLo4y5GtYwQm2yJ5hgWw/edit?gid=0#gid=0
