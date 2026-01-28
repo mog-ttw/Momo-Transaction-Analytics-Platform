@@ -43,7 +43,7 @@ CREATE TABLE Merchants (
     INDEX idx_phone (phone_number)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Transaction (
+CREATE TABLE Transactions (
     transaction_id VARCHAR(50) PRIMARY KEY,
     sender_id INT NOT NULL,
     receiver_id INT,
@@ -54,7 +54,6 @@ CREATE TABLE Transaction (
     transaction_date DATETIME NOT NULL,
     description TEXT,
 
-    -- Foreign key constraints
     CONSTRAINT fk_sender
         FOREIGN KEY (sender_id)
         REFERENCES Users(user_id)
@@ -73,7 +72,6 @@ CREATE TABLE Transaction (
         ON DELETE RESTRICT
         ON UPDATE CASCADE,
 
-    -- Indexes for performance
     INDEX idx_sender (sender_id),
     INDEX idx_receiver (receiver_id),
     INDEX idx_category (category_id),
@@ -88,7 +86,6 @@ CREATE TABLE Transaction_Merchant (
     merchant_fee DECIMAL(10,2) DEFAULT 0.00,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    -- Foreign key constraints
     CONSTRAINT fk_tm_transaction
         FOREIGN KEY (transaction_id)
         REFERENCES Transactions(transaction_id)
@@ -101,10 +98,8 @@ CREATE TABLE Transaction_Merchant (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-    -- to avoid duplicates
     CONSTRAINT uq_transaction_merchant UNIQUE (transaction_id, merchant_id),
 
-    -- Indexes
     INDEX idx_transaction (transaction_id),
     INDEX idx_merchant (merchant_id)
 ) ENGINE=InnoDB;
@@ -117,14 +112,12 @@ CREATE TABLE System_Logs (
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     additional_data JSON COMMENT 'Extra context data in JSON format',
 
-    --Foreign key constraint
     CONSTRAINT fk_log_transaction
         FOREIGN KEY (transaction_id)
         REFERENCES Transactions(transaction_id)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
 
-    -- Indexes
     INDEX idx_type (log_type),
     INDEX idx_timestamp (timestamp),
     INDEX idx_transaction (transaction_id)
