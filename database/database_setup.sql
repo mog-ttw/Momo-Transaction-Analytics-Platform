@@ -123,11 +123,45 @@ CREATE TABLE System_Logs (
     INDEX idx_transaction (transaction_id)
 ) ENGINE=InnoDB;
 
--- Sample data: insert 5 rows per table for examples / testing
 
 INSERT INTO Users (phone_number, full_name, email, registration_date, account_status) VALUES
- ('250788000001','Alice Kamanzi','alice.kamanzi@example.com','2025-01-10 08:15:00','active'),
- ('250788000002','Brian Mugisha','brian.mugisha@example.com','2025-01-11 09:30:00','active'),
- ('250788000003','Claire Nsengiyumva','claire.nsengiyumva@example.com','2025-01-12 10:45:00','active'),
- ('250788000004','Daniel Habimana','daniel.habimana@example.com','2025-01-13 11:20:00','suspended'),
- ('250788000005','Eve Uwamahoro','eve.uwamahoro@example.com','2025-01-14 12:05:00','active');
+ ('250788000001','Dianah Gasasira','d.gasasira@example.com','2025-01-10 08:15:00','active'),
+ ('250788000002','Bior Majok','b.aguer@example.com','2025-01-11 09:30:00','active'),
+ ('250788000003','Ayobamidele','ayobamidele@example.com','2025-01-12 10:45:00','active'),
+ ('250788000004','Jesse','jesse@example.com','2025-01-13 11:20:00','suspended'),
+ ('250788000005','James','james@example.com','2025-01-14 12:05:00','active');
+
+ INSERT INTO Transaction_Categories (category_name, description) VALUES
+('Groceries','Purchases at supermarkets and local shops'),
+('Utilities','Electricity, water, internet bills'),
+('Transport','Public transport, taxi and ride-share payments'),
+('Entertainment','Movies, events, subscriptions'),
+('Savings','Transfers to savings account or wallet');
+
+INSERT INTO Merchants (merchant_name, merchant_code, phone_number) VALUES
+('Kigali Supermarket','M001','250788111001'),
+('City Electricity','M002','250788222002'),
+('FastTaxis','M003','250788333003'),
+('CinemaPlus','M004','250788444004'),
+('SafeBank','M005','250788555005');
+
+INSERT INTO Transactions (transaction_id, sender_id, receiver_id, category_id, amount, currency, transaction_fee, transaction_date, description) VALUES
+('txn-0001',1,NULL,1,45250.00,'RWF',250.00,'2025-01-15 09:00:00','Grocery purchase at Kigali Supermarket'),
+('txn-0002',2,NULL,2,125000.00,'RWF',500.00,'2025-01-16 10:30:00','Electricity bill payment to City Electricity'),
+('txn-0003',3,NULL,3,3000.00,'RWF',20.00,'2025-01-16 14:05:00','Taxi payment via FastTaxis'),
+('txn-0004',4,NULL,4,15000.00,'RWF',100.00,'2025-01-17 18:20:00','Movie tickets at CinemaPlus'),
+('txn-0005',5,NULL,5,20000.00,'RWF',0.00,'2025-01-18 08:45:00','Transfer to savings at SafeBank');
+
+INSERT INTO Transaction_Merchant (transaction_id, merchant_id, merchant_fee) VALUES
+('txn-0001',1,200.00),
+('txn-0002',2,300.00),
+('txn-0003',3,10.00),
+('txn-0004',4,50.00),
+('txn-0005',5,0.00);
+
+INSERT INTO System_Logs (log_type, message, transaction_id, additional_data) VALUES
+('info','Transaction processed successfully','txn-0001','{"method":"USSD","attempts":1}'),
+('warning','Delayed confirmation from merchant','txn-0002','{"merchant_response":"slow"}'),
+('info','External provider callback received','txn-0003','{"provider":"FastTaxis"}'),
+('debug','Seat reservation logged for cinema purchase','txn-0004','{"screen":"Screen 2","seats":["A5","A6"]}'),
+('error','Failed to credit savings account','txn-0005','{"error_code":502,"reason":"bank_timeout"}'); 
