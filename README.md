@@ -6,6 +6,7 @@ Team Name: EWD-9
 Dianah Shimwa Gasasira
 Ayobamidele Aiyedogbon
 Jesse Nkubito
+Bior Majok 
 
 ## Project Description
 An enterprise-level fullstack application designed to process, analyze, and visualize Mobile Money (MoMo) transaction data from SMS messages in XML format.
