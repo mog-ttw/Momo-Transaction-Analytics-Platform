@@ -122,3 +122,12 @@ CREATE TABLE System_Logs (
     INDEX idx_timestamp (timestamp),
     INDEX idx_transaction (transaction_id)
 ) ENGINE=InnoDB;
+
+-- Sample data: insert 5 rows per table for examples / testing
+
+INSERT INTO Users (phone_number, full_name, email, registration_date, account_status) VALUES
+ ('250788000001','Alice Kamanzi','alice.kamanzi@example.com','2025-01-10 08:15:00','active'),
+ ('250788000002','Brian Mugisha','brian.mugisha@example.com','2025-01-11 09:30:00','active'),
+ ('250788000003','Claire Nsengiyumva','claire.nsengiyumva@example.com','2025-01-12 10:45:00','active'),
+ ('250788000004','Daniel Habimana','daniel.habimana@example.com','2025-01-13 11:20:00','suspended'),
+ ('250788000005','Eve Uwamahoro','eve.uwamahoro@example.com','2025-01-14 12:05:00','active');
