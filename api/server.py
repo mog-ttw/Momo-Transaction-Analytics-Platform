@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 import json
@@ -373,5 +372,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-
->>>>>>> 0bf224e (Add new files and remove docs folder)
