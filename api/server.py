@@ -184,8 +184,7 @@ def run():
 
 if __name__ == "__main__":
     run()
-
-=======
+    
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 import json
